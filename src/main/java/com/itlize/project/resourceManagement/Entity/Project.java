@@ -1,7 +1,11 @@
 package com.itlize.project.resourceManagement.Entity;
 
-public class Project {
+import javax.persistence.*;
 
+@Entity
+public class Project {
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
         private int id;
         private String projectName;
         private String projectDetail;

@@ -1,14 +1,19 @@
 package com.itlize.project.resourceManagement.Entity;
 
+import javax.persistence.*;
+
+@Entity
 public class Resource {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String resourceCode;
+    private int resourceCode;
     private String resourceName;
     private String resourceDesc;
 
     public Resource() { }
 
-    public Resource(int id, String resourceCode, String resourceName, String resourceDesc) {
+    public Resource(int id, int resourceCode, String resourceName, String resourceDesc) {
         this.id = id;
         this.resourceCode = resourceCode;
         this.resourceName = resourceName;
@@ -23,11 +28,11 @@ public class Resource {
         this.id = id;
     }
 
-    public String getResourceCode() {
+    public int getResourceCode() {
         return resourceCode;
     }
 
-    public void setResourceCode(String resourceCode) {
+    public void setResourceCode(int resourceCode) {
         this.resourceCode = resourceCode;
     }
 

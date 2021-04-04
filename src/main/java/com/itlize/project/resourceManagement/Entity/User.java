@@ -1,6 +1,11 @@
 package com.itlize.project.resourceManagement.Entity;
 
+import javax.persistence.*;
+
+@Entity
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String user;
     private String password;
@@ -12,7 +17,11 @@ public class User {
         this.id = id;
         this.user = user;
     }
-
+    public User( String user, String password, String role) {
+        this.user = user;
+        this.password = password;
+        this.role= role;
+    }
     public User(int id, String user, String password, String role) {
         this.id = id;
         this.user = user;
