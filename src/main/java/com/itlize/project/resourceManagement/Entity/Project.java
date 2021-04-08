@@ -1,45 +1,64 @@
 package com.itlize.project.resourceManagement.Entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Project {
         @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "project_id" )
         private int id;
-        private String projectName;
-        private String projectDetail;
+        @Column(name ="time_created")
+        private Date date;
+        //one user has many projects
+        @Column(name ="project_owner")
+        private Integer owner;
+
+
+
 
     public Project() {
     }
 
-    public Project(int id, String projectName, String projectDetail) {
-        this.id = id;
-        this.projectName = projectName;
-        this.projectDetail = projectDetail;
+    public Project(Date date, String owner) {
+
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getProjectName() {
-        return projectName;
+    public Date getDate() {
+        return date;
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public String getProjectDetail() {
-        return projectDetail;
+    public Integer getOwner() {
+        return owner;
     }
 
-    public void setProjectDetail(String projectDetail) {
-        this.projectDetail = projectDetail;
+    public void setOwner(Integer owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", date=" + date +
+                ", owner=" + owner +
+                '}';
     }
 }
