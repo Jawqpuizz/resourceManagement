@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 public class Resource {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "resource_id", nullable = false)
     private Integer id;
     @Column(name = "resource_name")

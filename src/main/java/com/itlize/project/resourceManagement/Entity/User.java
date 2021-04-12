@@ -18,7 +18,7 @@ public class User {
     private String role;
     // one user has many projects
     @JsonIgnore
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Project> projectList;
 
     //Constructor

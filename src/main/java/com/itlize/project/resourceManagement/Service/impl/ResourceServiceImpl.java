@@ -22,6 +22,7 @@ public class ResourceServiceImpl implements ResourceService {
      public Resource createResource(List<Resource> resource){
          Resource newResource = new Resource();
          for (Resource r: resource) {
+             System.out.println(r.getId());
              newResource.setId(r.getId());
              newResource.setTimeCreated(LocalDateTime.now());
              newResource.setLastUpdated(LocalDateTime.now());

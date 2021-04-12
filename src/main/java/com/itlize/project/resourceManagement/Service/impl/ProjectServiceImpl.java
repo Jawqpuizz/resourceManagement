@@ -6,6 +6,7 @@ import com.itlize.project.resourceManagement.Repository.ProjectResourceRepositor
 import com.itlize.project.resourceManagement.Repository.UserRepository;
 import com.itlize.project.resourceManagement.Service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -19,7 +20,7 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectRepository projectRepository;
 
     @Autowired
-    public ProjectResourceRepository projectResourceRepository;
+    public UserRepository userRepository;
 
     @Override
     public List<Project> findAll() {
@@ -44,15 +45,21 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = new Project();
         project.setDate(LocalDateTime.now());
         project.setProjectName(objectRequest.getProject().getProjectName());
-        project.setUser(objectRequest.getUser());
-
+        // need to ensure that a given id exists in the user table first
+        User user = userRepository.getOne(objectRequest.getUser().getId());
+        project.setUser(user);
         Project newProject = projectRepository.save(project);
 
         return newProject;
     }
 
     @Override
-    public void delete(Integer id) {
-        projectRepository.deleteProjectById(id);
+    public void deleteProjectById(Integer id) {
+       projectRepository.deleteProjectById(id);
+    }
+
+    @Override
+    public Project updateProject(Integer id) {
+        return null;
     }
 }

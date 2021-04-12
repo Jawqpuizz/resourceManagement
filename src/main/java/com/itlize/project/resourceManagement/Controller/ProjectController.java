@@ -5,6 +5,7 @@ import com.itlize.project.resourceManagement.Entity.Project;
 import com.itlize.project.resourceManagement.Service.impl.ProjectResourceServiceImpl;
 import com.itlize.project.resourceManagement.Service.impl.ProjectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,15 +49,17 @@ public class ProjectController {
 
 
     @PutMapping("/update/{id}")
-    public ResponseEntity updateProject(@PathVariable Integer id , Project project){
-        return ResponseEntity.ok("Update!!");
+    public ResponseEntity<?> updateProject(@PathVariable Integer projectId){
+        Project newProject = projectService.updateProject(projectId);
+        String message = newProject.getId()+ ": "+newProject.getProjectName()+ " has been updated!!";
+        return ResponseEntity.ok(message);
     }
 
 
     @DeleteMapping("/delete/{id}")
     @Transactional
-    public ResponseEntity deleteProject(@PathVariable Integer id , Project project){
-        projectService.delete(id);
-        return ResponseEntity.ok("Project has been deleted!!");
+    public ResponseEntity<?> deleteProject(@PathVariable Integer projectId ){
+        projectService.deleteProjectById(projectId);
+        return ResponseEntity.ok().build();
     }
 }

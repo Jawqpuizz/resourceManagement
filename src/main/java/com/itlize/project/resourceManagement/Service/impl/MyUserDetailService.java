@@ -20,7 +20,6 @@ public class MyUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUser(username).orElse(null);
-        System.out.println(passwordEncoder.encode(user.getPassword()).toString());
         return new org.springframework.security.core.userdetails.User(user.getUser(), passwordEncoder.encode(user.getPassword()), new ArrayList<>());
     }
 }

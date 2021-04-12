@@ -19,12 +19,12 @@ public class Project {
         private LocalDateTime  createDate;
 
         //one user has many projects
-        @ManyToOne (cascade = CascadeType.ALL)
+        @ManyToOne
         @JoinColumn(name ="user_id")
         private User user;
 
         @JsonIgnore
-        @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+        @OneToMany(mappedBy = "project",cascade = CascadeType.ALL)
         private List<ProjectResource> projectResourceList;
 
 

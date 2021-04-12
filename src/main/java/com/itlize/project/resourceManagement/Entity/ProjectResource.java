@@ -9,11 +9,11 @@ public class ProjectResource {
     @Column(name = "project_resource_id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="project_id")
     private Project project;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="resource_id")
     private Resource resource;
 
