@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class jwtUtil {
-    private String SECRET_KEY = "secret";
+public class JwtUtil {
+    private String SECRET_KEY = "ResourceSecret";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

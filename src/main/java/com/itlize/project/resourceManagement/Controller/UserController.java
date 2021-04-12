@@ -4,8 +4,7 @@ import com.itlize.project.resourceManagement.Entity.AuthenticationResponse;
 import com.itlize.project.resourceManagement.Entity.User;
 import com.itlize.project.resourceManagement.Service.impl.MyUserDetailService;
 import com.itlize.project.resourceManagement.Service.impl.UserServiceImpl;
-import com.itlize.project.resourceManagement.util.jwtUtil;
-import org.apache.coyote.Response;
+import com.itlize.project.resourceManagement.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,7 +22,7 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private jwtUtil jwtTokenUtil;
+    private JwtUtil jwtTokenUtil;
 
     @Autowired
     private MyUserDetailService userDetailsService;
@@ -46,6 +45,7 @@ public class UserController {
             );
         }
         catch (BadCredentialsException e) {
+            System.out.println("Invalid user");
             throw new Exception("Incorrect username or password", e);
         }
 

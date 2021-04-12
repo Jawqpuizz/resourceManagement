@@ -9,4 +9,5 @@ public interface ProjectService {
     public List<Project> findAll();
     public List<Project> findAllById(Integer id);
     public Project createProject(ObjectRequest objectRequest);
+    void delete(Integer id);
 }

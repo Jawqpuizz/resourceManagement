@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -45,4 +46,17 @@ public class ProjectController {
         return ResponseEntity.ok(list);
     }
 
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity updateProject(@PathVariable Integer id , Project project){
+        return ResponseEntity.ok("Update!!");
+    }
+
+
+    @DeleteMapping("/delete/{id}")
+    @Transactional
+    public ResponseEntity deleteProject(@PathVariable Integer id , Project project){
+        projectService.delete(id);
+        return ResponseEntity.ok("Project has been deleted!!");
+    }
 }

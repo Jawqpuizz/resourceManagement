@@ -1,4 +1,4 @@
-#
+
 server:
   port: 8083
 spring:
@@ -6,11 +6,11 @@ spring:
     hibernate:
       ddl-auto: update
       show-sql: true
-      dialect: org.hibernate.dialect.MySQL8Dialect
+      dialect: org.hibernate.dialect.MySQL5Dialect
     show-sql: true
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/resource_management
     username: root
-    password: Password1234
+    password: Password

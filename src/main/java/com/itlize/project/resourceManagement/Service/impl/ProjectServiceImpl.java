@@ -48,18 +48,11 @@ public class ProjectServiceImpl implements ProjectService {
 
         Project newProject = projectRepository.save(project);
 
-
-//        // if there are resource then create records in junction table
-//        if(objectRequest.getResource() != null){
-//            Integer projectId = newProject.getId();
-//            List<Resource> list = objectRequest.getProjectResource();
-//            ProjectResource projectResource = new ProjectResource();
-//            for (Resource resource: list) {
-//                projectResource.
-//                projectResourceRepository.save(projectResource);
-//            }
-//        }
-
         return newProject;
+    }
+
+    @Override
+    public void delete(Integer id) {
+        projectRepository.deleteProjectById(id);
     }
 }

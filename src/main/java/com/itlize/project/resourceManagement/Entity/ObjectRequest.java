@@ -4,35 +4,7 @@ import java.util.List;
 
 public class ObjectRequest {
 
-//    {
-//        "user": {
-//        "id": 2,
-//                "user": null,
-//                "password": null,
-//                "role": null
-//    },
-//        "project": {
-//        "id": 0,
-//                "projectName": "project2",
-//                "createDate": null,
-//                "user": null,
-//                "date": null
-//    },
-//        "resource": null,
-//            "resourceList": null,
-//            "projectResourceList": [
-//        {
-//            "id": null,
-//                "project": null,
-//                "resource": null
-//        },
-//        {
-//            "id": null,
-//                "project": null,
-//                "resource": null
-//        }
-//    ]
-//    }
+
     private User user;
     private Project project;
     private Resource resource;

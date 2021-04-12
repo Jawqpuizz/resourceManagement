@@ -36,7 +36,7 @@ public class ResourceServiceImpl implements ResourceService {
     public void delete(Integer id) {
         resourceRepository.deleteResourceById(id);
     }
-    // todo delete all
+
 
     @Override
     public List<Resource> findAll() {
