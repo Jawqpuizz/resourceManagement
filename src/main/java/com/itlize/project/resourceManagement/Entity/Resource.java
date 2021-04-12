@@ -1,5 +1,7 @@
 package com.itlize.project.resourceManagement.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -7,16 +9,19 @@ import java.util.List;
 @Entity
 public class Resource {
     @Id
-    @Column(name = "resource_id", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "resource_id", nullable = false)
     private Integer id;
+    @Column(name = "resource_name")
+    private String resourceName;
     @Column(name = "time_created")
     private LocalDateTime timeCreated;
     @Column(name = "last_updated")
     private LocalDateTime lastUpdated;
 
-
-    @OneToMany(mappedBy = "Resource",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ResourceSubset> ResourceSubset;
+    @JsonIgnore
+    @OneToMany(mappedBy = "resource",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ProjectResource> projectResourceList;
 
     public Resource() { }
 
@@ -44,12 +49,20 @@ public class Resource {
         this.lastUpdated = lastUpdated;
     }
 
-    public List<com.itlize.project.resourceManagement.Entity.ResourceSubset> getResourceSubset() {
-        return ResourceSubset;
+    public String getResourceName() {
+        return resourceName;
     }
 
-    public void setResourceSubset(List<com.itlize.project.resourceManagement.Entity.ResourceSubset> resourceSubset) {
-        ResourceSubset = resourceSubset;
+    public void setResourceName(String resourcName) {
+        this.resourceName = resourcName;
+    }
+
+    public List<ProjectResource> getProjectResourceList() {
+        return projectResourceList;
+    }
+
+    public void setProjectResourceList(List<ProjectResource> projectResourceList) {
+        this.projectResourceList = projectResourceList;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.itlize.project.resourceManagement.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -16,7 +17,8 @@ public class User {
     private String password;
     private String role;
     // one user has many projects
-    @OneToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private List<Project> projectList;
 
     //Constructor

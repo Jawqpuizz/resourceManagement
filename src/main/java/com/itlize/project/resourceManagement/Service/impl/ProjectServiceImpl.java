@@ -1,13 +1,15 @@
 package com.itlize.project.resourceManagement.Service.impl;
 
-import com.itlize.project.resourceManagement.Entity.Project;
-import com.itlize.project.resourceManagement.Entity.Resource;
+import com.itlize.project.resourceManagement.Entity.*;
 import com.itlize.project.resourceManagement.Repository.ProjectRepository;
+import com.itlize.project.resourceManagement.Repository.ProjectResourceRepository;
+import com.itlize.project.resourceManagement.Repository.UserRepository;
 import com.itlize.project.resourceManagement.Service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 @Service
@@ -16,24 +18,48 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     public ProjectRepository projectRepository;
 
+    @Autowired
+    public ProjectResourceRepository projectResourceRepository;
+
     @Override
     public List<Project> findAll() {
         return projectRepository.findAll();
     }
 
     @Override
-    public List<Project> findAllById(Iterable<Integer> id) {
-        List<Project> list = new ArrayList<>();
-        list = projectRepository.findAllById(id);
+    public List<Project> findAllById(Integer id) {
+        List<Project> newList = new ArrayList<>();
+        List<Project> list = projectRepository.findAll();
         for (Project p: list) {
-            System.out.print(p);
+            if(p.getUser().getId()== id){
+                newList.add(p);
+            }
         }
-        return projectRepository.findAllById(id);
+        return newList;
 
     }
 
     @Override
-    public Project createProject(Project project) {
-        return projectRepository.save(project);
+    public Project createProject(ObjectRequest objectRequest) {
+        Project project = new Project();
+        project.setDate(LocalDateTime.now());
+        project.setProjectName(objectRequest.getProject().getProjectName());
+        project.setUser(objectRequest.getUser());
+
+        Project newProject = projectRepository.save(project);
+
+
+//        // if there are resource then create records in junction table
+//        if(objectRequest.getResource() != null){
+//            Integer projectId = newProject.getId();
+//            List<Resource> list = objectRequest.getProjectResource();
+//            ProjectResource projectResource = new ProjectResource();
+//            for (Resource resource: list) {
+//                projectResource.
+//                projectResourceRepository.save(projectResource);
+//            }
+//        }
+
+        return newProject;
     }
 }

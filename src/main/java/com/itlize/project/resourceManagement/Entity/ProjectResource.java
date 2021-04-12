@@ -8,16 +8,23 @@ public class ProjectResource {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_resource_id")
     private Integer id;
-    private Integer projectId;
-    private Integer resourceId;
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    @JoinColumn(name ="project_id")
+    private Project project;
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    @JoinColumn(name ="resource_id")
+    private Resource resource;
+
 
     public ProjectResource() {
     }
 
-    public ProjectResource(Integer id, Integer projectId, Integer resourceId) {
+    public ProjectResource(Integer id, Project project, Resource resource) {
         this.id = id;
-        this.projectId = projectId;
-        this.resourceId = resourceId;
+        this.project = project;
+        this.resource = resource;
     }
 
     public Integer getId() {
@@ -28,19 +35,28 @@ public class ProjectResource {
         this.id = id;
     }
 
-    public Integer getProjectId() {
-        return projectId;
+    public Project getProject() {
+        return project;
     }
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
-    public Integer getResourceId() {
-        return resourceId;
+    public Resource getResource() {
+        return resource;
     }
 
-    public void setResourceId(Integer resourceId) {
-        this.resourceId = resourceId;
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectResource{" +
+                "id=" + id +
+                ", project=" + project +
+                ", resource=" + resource +
+                '}';
     }
 }

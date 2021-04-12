@@ -1,10 +1,17 @@
 package com.itlize.project.resourceManagement.Controller;
 
+import com.itlize.project.resourceManagement.Entity.AuthenticationResponse;
 import com.itlize.project.resourceManagement.Entity.User;
+import com.itlize.project.resourceManagement.Service.impl.MyUserDetailService;
 import com.itlize.project.resourceManagement.Service.impl.UserServiceImpl;
+import com.itlize.project.resourceManagement.util.jwtUtil;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +19,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private jwtUtil jwtTokenUtil;
+
+    @Autowired
+    private MyUserDetailService userDetailsService;
+
     @Autowired
     private UserServiceImpl userService;
 
@@ -22,14 +38,27 @@ public class UserController {
     }
 
     @PostMapping("/logIn")
-    public ResponseEntity<?>  authenticateUser(@RequestBody User user){
-        if(userService.authenticateUser(user)){
-            return ResponseEntity.ok("You are logged in");
-        }
-        //todo send error to users on clients side
-            return ResponseEntity.ok("Invalid user or password, Please try again!!");
+    public ResponseEntity<?>  authenticateUser(@RequestBody User user) throws Exception{
 
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getUser(),user.getPassword())
+            );
+        }
+        catch (BadCredentialsException e) {
+            throw new Exception("Incorrect username or password", e);
+        }
+
+
+        final UserDetails userDetails = userDetailsService
+                .loadUserByUsername(user.getUser());
+
+        final String jwt = jwtTokenUtil.generateToken(userDetails);
+
+        return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
+
+
     @GetMapping("/allUser")
     public List<User> showAll(){
         return userService.findAll();

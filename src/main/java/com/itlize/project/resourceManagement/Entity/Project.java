@@ -1,7 +1,11 @@
 package com.itlize.project.resourceManagement.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Project {
@@ -9,11 +13,19 @@ public class Project {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "project_id" )
         private int id;
+        @Column(name = "project_name")
+        private String projectName;
         @Column(name ="time_created")
-        private Date date;
+        private LocalDateTime  createDate;
+
         //one user has many projects
-        @Column(name ="project_owner")
-        private Integer owner;
+        @ManyToOne
+        @JoinColumn(name ="user_id")
+        private User user;
+
+        @JsonIgnore
+        @OneToMany(mappedBy = "project")
+        private List<ProjectResource> projectResourceList;
 
 
 
@@ -37,28 +49,54 @@ public class Project {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public LocalDateTime getDate() {
+        return createDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate(LocalDateTime date) {
+        this.createDate = date;
     }
 
-    public Integer getOwner() {
-        return owner;
+    public String getProjectName() {
+        return projectName;
     }
 
-    public void setOwner(Integer owner) {
-        this.owner = owner;
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<ProjectResource> getProjectResourceList() {
+        return projectResourceList;
+    }
+
+    public void setProjectResourceList(List<ProjectResource> projectResourceList) {
+        this.projectResourceList = projectResourceList;
     }
 
     @Override
     public String toString() {
         return "Project{" +
                 "id=" + id +
-                ", date=" + date +
-                ", owner=" + owner +
+                ", projectName='" + projectName + '\'' +
+                ", createDate=" + createDate +
+                ", user=" + user +
+                ", projectResourceList=" + projectResourceList +
                 '}';
     }
 }

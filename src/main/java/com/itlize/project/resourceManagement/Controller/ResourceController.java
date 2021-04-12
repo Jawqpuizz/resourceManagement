@@ -1,13 +1,12 @@
 package com.itlize.project.resourceManagement.Controller;
 
+import com.itlize.project.resourceManagement.Entity.ObjectRequest;
 import com.itlize.project.resourceManagement.Entity.Resource;
-import com.itlize.project.resourceManagement.Entity.ResourceSubset;
 import com.itlize.project.resourceManagement.Service.impl.ResourceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,7 +15,6 @@ public class ResourceController {
     @Autowired
     private ResourceServiceImpl resourceService;
 
-
     @GetMapping("/allList")
     public List<Resource> resourceList(){
         return resourceService.findAll();
@@ -24,10 +22,11 @@ public class ResourceController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity createResource(ResourceSubset resource){
-        resourceService.createResource(resource);
-       return ResponseEntity.ok(resource);
+    public ResponseEntity createResource(@RequestBody ObjectRequest objectRequest){
+        resourceService.createResource(objectRequest.getResourceList());
+        return ResponseEntity.ok("Resource have been created");
     }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteResource(@PathVariable Integer id){
@@ -36,8 +35,7 @@ public class ResourceController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateResource(@PathVariable Integer id ,@RequestBody ResourceSubset resource){
-        System.out.println("I am in the controller layer");
+    public ResponseEntity<?> updateResource(@PathVariable Integer id ,@RequestBody Resource resource){
         resourceService.updateResource(id,resource);
         return ResponseEntity.ok(resource);
     }
