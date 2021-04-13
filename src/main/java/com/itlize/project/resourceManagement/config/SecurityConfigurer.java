@@ -44,8 +44,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/logIn").permitAll()
-               .antMatchers("/user/signUp").permitAll()
+                .antMatchers("/api/user/logIn").permitAll()
+               .antMatchers("/api/user/signUp").permitAll()
                 .anyRequest().authenticated().and().
                 exceptionHandling().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);// this line tells Spring not create the session

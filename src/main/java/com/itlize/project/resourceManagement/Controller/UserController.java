@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -32,8 +32,9 @@ public class UserController {
 
     @PostMapping("/signUp")
     public ResponseEntity<?> signUp(@RequestBody User user){
-        userService.save(user);
-        return ResponseEntity.ok(user);
+        User newUser = userService.creatUser(user);
+        String message = newUser.getId()+" : "+ newUser.getUser()+" is created !!";
+        return ResponseEntity.ok(message);
     }
 
     @PostMapping("/logIn")
@@ -45,7 +46,6 @@ public class UserController {
             );
         }
         catch (BadCredentialsException e) {
-            System.out.println("Invalid user");
             throw new Exception("Incorrect username or password", e);
         }
 
@@ -64,11 +64,12 @@ public class UserController {
         return userService.findAll();
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody User user){
-        User newUser = userService.findOneById(id);
-        newUser.setUser(user.getUser());
-        userService.save(newUser);
+    @PutMapping("/update/")
+    public ResponseEntity<?> updateUser( @RequestBody User user){
+        // if not found
+        User newUser = userService.findOneById(user.getId());
+
+        userService.updateUser(user);
         return ResponseEntity.ok(user);
     }
 

@@ -22,17 +22,35 @@ public class ProjectResourceServiceImpl implements ProjectResourceService {
     private ResourceRepository resourceRepository;
 
     @Override
-    public List<ProjectResource> save(Project project, List<ProjectResource> projectResource) {
+    public List<ProjectResource> save(Project project, List<Resource> projectResource) {
         List<ProjectResource> retValue = new ArrayList<>();
-        for (ProjectResource pr: projectResource) {
+        for (Resource pr: projectResource) {
             ProjectResource newProjectResource = new ProjectResource();
 
             newProjectResource.setProject(project);
-
-            newProjectResource.setResource(resourceRepository.getOne(pr.getId()));
-            System.out.println(newProjectResource.toString());
-            retValue.add(projectResourceRepository.save(newProjectResource));
+            // if a given resource exists then save
+            Resource loadedResource = resourceRepository.getOne(pr.getId());
+            if(loadedResource != null) {
+                newProjectResource.setResource(loadedResource);
+                retValue.add(projectResourceRepository.save(newProjectResource));
+            }
         }
         return retValue;
+    }
+
+    public  List<ProjectResource> findAll(){
+        return projectResourceRepository.findAll();
+    }
+    /// want to know how many project are using given resource
+    @Override
+    public List<Project> getProjectByResourceId(Integer id) {
+        List<Project> projectList = new ArrayList<>();
+        List<ProjectResource> projectResourceList = projectResourceRepository.findAll();
+        for (ProjectResource pr: projectResourceList) {
+            if(pr.getResource().getResourceCode() == id){
+                projectList.add(pr.getProject());
+            }
+        }
+        return projectList;
     }
 }

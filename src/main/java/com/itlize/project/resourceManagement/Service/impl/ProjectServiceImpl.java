@@ -55,11 +55,19 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void deleteProjectById(Integer id) {
+        System.out.println(id);
        projectRepository.deleteProjectById(id);
     }
 
     @Override
-    public Project updateProject(Integer id) {
-        return null;
+    public Project updateProject(ObjectRequest objectRequest) {
+        Project newProject = projectRepository.findById(objectRequest.getProject().getId()).orElse(null);
+        newProject.setDate(LocalDateTime.now());
+
+        if(objectRequest.getProject().getProjectName() != null) {
+            newProject.setProjectName(objectRequest.getProject().getProjectName());
+        }
+        Project retProject = projectRepository.save(newProject);
+        return retProject;
     }
 }

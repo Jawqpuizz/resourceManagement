@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ResourceService {
    public List<Resource> findAll();
-   public List<Resource> findAllById(Iterable<Integer> id);
-   public void delete(Integer id);
+   public void deleteResourceById(Integer id);
+   Resource findById(Integer id);
 
 }

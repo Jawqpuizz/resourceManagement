@@ -2,6 +2,7 @@ package com.itlize.project.resourceManagement.Entity;
 
 public class AuthenticationResponse {
     private String jwt;
+    private String tokenType = "Bearer ";
 
     public AuthenticationResponse() {
     }
@@ -16,5 +17,13 @@ public class AuthenticationResponse {
 
     public void setJwt(String jwt) {
         this.jwt = jwt;
+    }
+
+    public String getTokenType() {
+        return tokenType;
+    }
+
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
     }
 }

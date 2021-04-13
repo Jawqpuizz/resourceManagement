@@ -9,11 +9,13 @@ import java.util.List;
 @Entity
 public class Resource {
     @Id
-   // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "resource_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "resource_id")
     private Integer id;
     @Column(name = "resource_name")
     private String resourceName;
+    @Column(name = "resource_code",nullable = false, unique = true)
+    private Integer resourceCode;
     @Column(name = "time_created")
     private LocalDateTime timeCreated;
     @Column(name = "last_updated")
@@ -31,6 +33,14 @@ public class Resource {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getResourceCode() {
+        return resourceCode;
+    }
+
+    public void setResourceCode(Integer resourceCode) {
+        this.resourceCode = resourceCode;
     }
 
     public LocalDateTime getTimeCreated() {

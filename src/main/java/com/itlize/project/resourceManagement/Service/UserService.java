@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface UserService {
     public List<User> findAll();
     public User findOneById(Integer id);
-    public User save(User user);
+    public User creatUser(User user);
     public void delete(Integer id);
 
 

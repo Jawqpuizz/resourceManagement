@@ -10,5 +10,5 @@ public interface ProjectService {
     public List<Project> findAllById(Integer id);
     public Project createProject(ObjectRequest objectRequest);
     void deleteProjectById(Integer id);
-    Project updateProject(Integer id);
+    Project updateProject(ObjectRequest objectRequest);
 }

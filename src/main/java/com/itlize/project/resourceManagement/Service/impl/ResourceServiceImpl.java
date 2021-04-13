@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,24 +21,26 @@ public class ResourceServiceImpl implements ResourceService {
     public ResourceRepository resourceRepository;
 
 
-     public Resource createResource(List<Resource> resource){
-         Resource newResource = new Resource();
+
+    public List<Resource> createResource(List<Resource> resource){
+         List<Resource> retList = new ArrayList<>();
          for (Resource r: resource) {
-             System.out.println(r.getId());
-             newResource.setId(r.getId());
+             Resource newResource = new Resource();
+             newResource.setResourceCode(r.getResourceCode());
+             newResource.setResourceName(r.getResourceName());
              newResource.setTimeCreated(LocalDateTime.now());
              newResource.setLastUpdated(LocalDateTime.now());
-             newResource.setResourceName(r.getResourceName());
-             resourceRepository.save(newResource);
+             retList.add(resourceRepository.save(newResource));
          }
 
-         return newResource;
+         return retList;
      }
 
     @Override
-    public void delete(Integer id) {
+    public void deleteResourceById(Integer id) {
         resourceRepository.deleteResourceById(id);
     }
+
 
 
     @Override
@@ -45,21 +49,35 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public List<Resource> findAllById(Iterable<Integer> id) {
-        return resourceRepository.findAllById(id);
+    public Resource findById(Integer id) {
+        return resourceRepository.findById(id).orElse(null);
     }
 
 
-    public Resource updateResource(Integer id, Resource resourceDetail){
-
-         Resource newResource = resourceRepository.findById(id).orElse(null);
-         newResource.setLastUpdated(LocalDateTime.now());
-         resourceRepository.save(newResource);
-
-
-
-        return newResource;
-
+    public Boolean isResourceExist(Integer resourceCode) {
+        List<Resource> resourceList = resourceRepository.findAll();
+        for (Resource resource: resourceList) {
+            if(resource.getResourceCode() == resourceCode){
+                return true;
+            }
+        }
+        return false;
     }
+
+
+
+    public Resource updateResource(Integer id, Resource resourceDetail) throws Exception {
+        Resource newResource = resourceRepository.findById(id).orElse(null);
+        /// if resource code already exist throe exception
+        newResource.setResourceCode(resourceDetail.getResourceCode());
+        newResource.setResourceName(resourceDetail.getResourceName());
+        newResource.setLastUpdated(LocalDateTime.now());
+        resourceRepository.save(newResource);
+
+
+        return resourceRepository.save(newResource);
+    }
+
+
 
 }

@@ -6,6 +6,7 @@ import com.itlize.project.resourceManagement.Repository.ProjectRepository;
 import com.itlize.project.resourceManagement.Repository.UserRepository;
 import com.itlize.project.resourceManagement.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,14 +21,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public ProjectRepository projectRepository;
 
-    public boolean authenticateUser(User user){
-        final Optional<User> us = userRepository.findByUser(user.getUser());
-        if(us.isPresent()){
-            // todo check password
-            return true;
-        }
-        return false;
-    }
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public List<User> findAll() {
@@ -41,11 +35,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(User user){
-        return userRepository.save(user);
+    public User creatUser(User user){
+        User newUser = new User();
+        newUser.setUser(user.getUser());
+        newUser.setRole(user.getRole());
+        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        return  userRepository.save(newUser);
    }
     @Override
    public void delete(Integer id){
          userRepository.deleteById(id);
    }
+
+
+    public User updateUser(User user){
+        User newUser = findOneById(user.getId());
+        if(user.getUser() != null) {
+            newUser.setUser(user.getUser());
+        }
+        if(user.getRole() != null) {
+            newUser.setRole(user.getRole());
+        }
+        if(user.getPassword() != null) {
+            newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        return  userRepository.save(newUser);
+    }
 }

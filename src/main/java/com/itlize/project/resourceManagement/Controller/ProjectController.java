@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
-@RequestMapping("/project")
+@RequestMapping("/api/project")
 public class ProjectController {
 
     @Autowired
@@ -23,16 +23,16 @@ public class ProjectController {
     @Autowired
     private ProjectResourceServiceImpl projectResourceService;
 
-    // Create a project with no resources
+    // Create a project
     @PostMapping("/create")
     public ResponseEntity<?> createProject(@RequestBody ObjectRequest request) {
         Project project = projectService.createProject(request);
-        projectResourceService.save(project,request.getProjectResourceList());
+        projectResourceService.save(project,request.getResourceList());
         return ResponseEntity.ok(request);
 
     }
 
-    //find all projects //the result seems wrong
+    //find all projects regardless of user ID
     @GetMapping(value = "/allList")
     public ResponseEntity<List<Project>> allProjectList(){
         List<Project> list = projectService.findAll();
@@ -40,7 +40,7 @@ public class ProjectController {
 
     }
 
-    // find all project by userId
+    // find all projects by userId
     @GetMapping("/list/{id}")
     public ResponseEntity<List<Project>> getProjectById(@PathVariable Integer id){
         List<Project> list = projectService.findAllById(id);
@@ -48,15 +48,18 @@ public class ProjectController {
     }
 
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateProject(@PathVariable Integer projectId){
-        Project newProject = projectService.updateProject(projectId);
+    @PutMapping("/update")
+    public ResponseEntity<?> updateProject(@RequestBody ObjectRequest objectRequest){
+        Project newProject = projectService.updateProject(objectRequest);
+        if(objectRequest.getResourceList() != null){
+            projectResourceService.save(newProject, objectRequest.getResourceList());
+        }
         String message = newProject.getId()+ ": "+newProject.getProjectName()+ " has been updated!!";
         return ResponseEntity.ok(message);
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{projectId}")
     @Transactional
     public ResponseEntity<?> deleteProject(@PathVariable Integer projectId ){
         projectService.deleteProjectById(projectId);
