@@ -34,6 +34,7 @@ public class ProjectController {
 
     //find all projects regardless of user ID
     @GetMapping(value = "/allList")
+
     public ResponseEntity<List<Project>> allProjectList(){
         List<Project> list = projectService.findAll();
         return ResponseEntity.ok(list);

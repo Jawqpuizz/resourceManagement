@@ -15,7 +15,7 @@ public class User {
     private Integer id;
     private String user;
     private String password;
-    private String role;
+    private Role role;
     // one user has many projects
     @JsonIgnore
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
@@ -29,7 +29,7 @@ public class User {
         this.password = password;
     }
 
-    public User(String user, String password, String role) {
+    public User(String user, String password, Role role) {
         this.user = user;
         this.password = password;
         this.role = role;
@@ -60,11 +60,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

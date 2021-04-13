@@ -4,7 +4,7 @@ public class ActionResponse {
 
         private Boolean success;
         private String message;
-
+        public ActionResponse(){ }
         public ActionResponse(Boolean success, String message) {
             this.success = success;
             this.message = message;

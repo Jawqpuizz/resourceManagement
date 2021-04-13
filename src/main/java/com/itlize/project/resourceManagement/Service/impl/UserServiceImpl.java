@@ -1,6 +1,7 @@
 package com.itlize.project.resourceManagement.Service.impl;
 
 import com.itlize.project.resourceManagement.Entity.Project;
+import com.itlize.project.resourceManagement.Entity.Role;
 import com.itlize.project.resourceManagement.Entity.User;
 import com.itlize.project.resourceManagement.Repository.ProjectRepository;
 import com.itlize.project.resourceManagement.Repository.UserRepository;
@@ -61,4 +62,6 @@ public class UserServiceImpl implements UserService {
         }
         return  userRepository.save(newUser);
     }
+
+
 }

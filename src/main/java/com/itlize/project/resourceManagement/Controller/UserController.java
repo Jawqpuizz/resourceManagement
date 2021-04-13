@@ -58,7 +58,7 @@ public class UserController {
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
-
+    // admin only
     @GetMapping("/allUser")
     public List<User> showAll(){
         return userService.findAll();
@@ -80,4 +80,5 @@ public class UserController {
 
 
     }
+
 }
