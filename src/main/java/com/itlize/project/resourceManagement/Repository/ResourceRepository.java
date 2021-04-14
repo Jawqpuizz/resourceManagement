@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface ResourceRepository extends JpaRepository<Resource,Integer>{
     void deleteResourceById(Integer id);
     Optional<Resource> findById(Integer id);
+    Optional<Resource> findByResourceCode(Integer id);
 }

@@ -7,8 +7,12 @@ import java.util.List;
 
 public interface ProjectService {
     public List<Project> findAll();
-    public List<Project> findAllById(Integer id);
+    public List<Project> findAllByUserId(Integer id);
+
+    Project findById(Integer projectId);
+
     public Project createProject(ObjectRequest objectRequest);
     void deleteProjectById(Integer id);
     Project updateProject(ObjectRequest objectRequest);
+
 }

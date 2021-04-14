@@ -28,16 +28,13 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> findAllById(Integer id) {
-        List<Project> newList = new ArrayList<>();
-        List<Project> list = projectRepository.findAll();
-        for (Project p: list) {
-            if(p.getUser().getId()== id){
-                newList.add(p);
-            }
-        }
-        return newList;
+    public List<Project> findAllByUserId(Integer userId) {
+        return projectRepository.findAllByUserId(userId);
 
+    }
+    @Override
+    public Project findById(Integer projectId){
+        return projectRepository.findById(projectId).orElse(null);
     }
 
     @Override

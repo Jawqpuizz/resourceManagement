@@ -12,6 +12,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -21,26 +22,26 @@ public class ResourceServiceImpl implements ResourceService {
     public ResourceRepository resourceRepository;
 
 
+    public List<Resource> createResource(List<Resource> resource) {
+        List<Resource> retList = new ArrayList<>();
+        for (Resource r : resource) {
+            Resource newResource = new Resource();
 
-    public List<Resource> createResource(List<Resource> resource){
-         List<Resource> retList = new ArrayList<>();
-         for (Resource r: resource) {
-             Resource newResource = new Resource();
-             newResource.setResourceCode(r.getResourceCode());
-             newResource.setResourceName(r.getResourceName());
-             newResource.setTimeCreated(LocalDateTime.now());
-             newResource.setLastUpdated(LocalDateTime.now());
-             retList.add(resourceRepository.save(newResource));
-         }
+                newResource.setResourceCode(r.getResourceCode());
+                newResource.setResourceName(r.getResourceName());
+                newResource.setTimeCreated(LocalDateTime.now());
+                newResource.setLastUpdated(LocalDateTime.now());
+                retList.add(resourceRepository.save(newResource));
+            }
 
-         return retList;
-     }
+
+        return retList;
+    }
 
     @Override
     public void deleteResourceById(Integer id) {
         resourceRepository.deleteResourceById(id);
     }
-
 
 
     @Override
@@ -54,16 +55,15 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
 
-    public Boolean isResourceExist(Integer resourceCode) {
+    public Boolean isResourceCodeExist(Integer resourceCode) {
         List<Resource> resourceList = resourceRepository.findAll();
-        for (Resource resource: resourceList) {
-            if(resource.getResourceCode() == resourceCode){
+        for (Resource resource : resourceList) {
+            if (resource.getResourceCode() == resourceCode) {
                 return true;
             }
         }
         return false;
     }
-
 
 
     public Resource updateResource(Integer id, Resource resourceDetail) throws Exception {
@@ -78,6 +78,28 @@ public class ResourceServiceImpl implements ResourceService {
         return resourceRepository.save(newResource);
     }
 
+    //     check if one or more resources exist in the table
+    public List<Resource> isResourceExist(List<Resource> resourceList, String check) {
+        List<Resource> retList = new ArrayList<>();
+        Resource loadedResource;
 
+        if (check == "CODE") {// return the existing code list
+            for (Resource resource : resourceList) {
+                loadedResource = resourceRepository.findByResourceCode(resource.getResourceCode()).orElse(null);
+                if (loadedResource != null) {
+                    retList.add(loadedResource);
+                }
+            }
+        } else {// check == "ID"  -  return the unknown id list
+            for (Resource resource : resourceList) {
+                loadedResource = resourceRepository.findById(resource.getId()).orElse(null);
+                if (loadedResource == null) {
+                    retList.add(resource);
+                }
+            }
 
+        }
+        return retList;
+
+    }
 }
